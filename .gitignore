@@ -163,3 +163,18 @@ pip-selfcheck.json
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/python,vscode,venv
+
+
+# Configuration .py file
+
+api/config.py
+/api/config.py
+
+
+
+# Env file
+
+.env
+/env
+/env/
+env/
