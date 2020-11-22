@@ -170,7 +170,9 @@ pip-selfcheck.json
 api/config.py
 /api/config.py
 
-
+foo.sqlite
+full_item_list.json
+locations.xlsx
 
 # Env file
 
