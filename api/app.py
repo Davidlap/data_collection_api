@@ -1,5 +1,10 @@
+import sqlalchemy as db
+
+
 def main():
-    pass
+
+    engine = db.create_engine("sqlite:///foo.sqlite")
+    connection = engine.connect()
 
 
 if __name__ == "__main__":

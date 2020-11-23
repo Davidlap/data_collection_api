@@ -1,3 +1,5 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy import (
     Column,
     Integer,
@@ -10,6 +12,37 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+
+"""
+Engines on sqlalchemy are used to managed 2 main things: Pools and Dialects
+
+Creating an engine does NOT connect to the database instantly, that is postponed to
+whenever is needed
+"""
+engine = create_engine("sqlite:///foo.sqlite")
+
+
+"""
+SQLAlchemy connection pools is one of the most traditional implementations of the
+object pool pattern. They are used as caches of pre-initialized objects ready to use. 
+They save time, instead of spending time creating objects that are frequently
+needed, they take it from the pool, and whenever they are done, they put it back
+
+The main reason is to improve performance. Opening and maintaining connections is
+expensive, time-consuming and wastes resources
+"""
+
+"""
+SQLAlchemy is a facade that enables python devs to create applications that communicate
+to different database engines through same API, the language is SQL but there are variations
+Thats why the engine must be able to 'speak' the different dialects
+"""
+
+# create a configured "Session" class
+Session = sessionmaker(bind=engine)
+
+# create a Session
+session = Session()
 
 Base = declarative_base()
 
