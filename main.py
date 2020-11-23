@@ -21,7 +21,6 @@ whenever is needed
 """
 engine = create_engine("sqlite:///foo.sqlite")
 
-
 """
 SQLAlchemy connection pools is one of the most traditional implementations of the
 object pool pattern. They are used as caches of pre-initialized objects ready to use. 
@@ -55,6 +54,11 @@ class Category(Base):
     name = Column(String)
     items = relationship("Item")
 
+
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
     def __repr__(self):
         return f"<Category(id={self.id}, name={self.name}"
 
@@ -66,6 +70,11 @@ class Item(Base):
     id = Column(String, primary_key=True)
     name = Column(String)
     category_id = Column(String, ForeignKey("categories.id"))
+
+    def __init__(self, id, name, category_id):
+        self.id = id
+        self.name = name
+        self.category_id = category_id
 
     def __repr__(self):
         return f"<Item(id={self.id}, name={self.name}, category_id={self.category_id}"
@@ -82,6 +91,15 @@ class Location(Base):
     jics_id = Column(String)
     stores = relationship("Store")
 
+
+    def __init__(self, id, name, category_id, pmt_id, jics_id):
+        self.id = id
+        self.name = name
+        self.category_id = category_id
+        self.pmt_id = pmt_id
+        self.jics_id = jics_id
+
+
     def __repr__(self):
         return f"<Location(name={self.name}, country_name={self.country_name}, pmt_id={self.pmt_id}, jics_id={self.jics_id}"
 
@@ -96,6 +114,14 @@ class Store(Base):
     outlet_type = Column(String)
     location_id = Column(Integer, ForeignKey("locations.id"))
 
+    def __init__(self, id, name, zipcode, outlet_type, location_id):
+        self.id = id
+        self.name = name
+        self.zipcode = zipcode
+        self.outlet_type = outlet_type
+        self.location_id = location_id
+
+
     def __repr__(self):
         return f"<Store(name={self.name}, zipcode={self.zipcode}, outlet_type={self.outlet_type}, location_id={self.location_id}"
 
@@ -108,6 +134,14 @@ class Url(Base):
     url = Column(String)
     item_id = Column(Integer, ForeignKey("items.id"))
     store_id = Column(Integer, ForeignKey("stores.id"))
+
+
+    def __init__(self, id, url, item_id, store_id):
+        self.id = id
+        self.url = url
+        self.item_id = item_id
+        self.store_id = store_id
+
 
     def __repr__(self):
         return f"<Url(url={self.url}, item_id={self.item_id}, store_id={self.store_id}"
@@ -127,5 +161,21 @@ class ProductPrice(Base):
     img_url = Column(String)
     date_collected = Column(Date)
 
+
+
+    def __init__(self, id, store_id, title, price, quantity, unit, price_unit, img_url, date_collected):
+        self.id = id
+        self.store_id = store_id
+        self.title = title
+        self.price = price
+        self.quantity = quantity
+        self.unit = unit
+        self.price_unit = price_unit
+        self.img_url = img_url
+        self.date_collected = date_collected
+
     def __repr__(self):
         return f"<ProductPrice(title={self.title}, price={self.price}, quantity={self.quantity}, unit={self.unit}, price_unit={self.price_unit}, img_url={self.img_url}, img_url={self.date_collected}"
+
+Base.metadata.create_all(engine)
+    
